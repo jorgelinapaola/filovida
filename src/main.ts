@@ -12,6 +12,17 @@ let state: UserState = {
     historial: []
 };
 
+// Cargar estado local inicial
+const savedLocal = localStorage.getItem('filosvida_local_user');
+if (savedLocal) {
+    try {
+        const localData = JSON.parse(savedLocal);
+        state = { ...state, ...localData };
+    } catch (e) {
+        console.error("Error al cargar estado local");
+    }
+}
+
 /* ── SELECTORES UI ── */
 const pages = document.querySelectorAll('.page');
 const moonVal = document.getElementById('moon-val');
@@ -81,10 +92,8 @@ function updateUI() {
     if (btnLogout) (btnLogout as HTMLElement).style.display = currentUser ? 'block' : 'none';
 
     // Manejo de Pasos en el Ritual
-    if (!currentUser) {
-        ritualStep1?.classList.add('active');
-        ritualStep2?.classList.remove('active');
-    } else if (!state.registrado) {
+    if (!state.registrado) {
+        // Si no está registrado, siempre mostramos el Paso 2 (Sintonía) por defecto
         ritualStep1?.classList.remove('active');
         ritualStep2?.classList.add('active');
     } else {
@@ -165,18 +174,39 @@ document.getElementById('btn-finalizar-ritual')?.addEventListener('click', async
 
     if (!nombre || !fecha) return notify("Faltan datos de sintonía");
 
+    const updates = {
+        registrado: true,
+        usuario: { nombre, nacimiento: fecha, hora, lugar }
+    };
+
     if (currentUser) {
         try {
-            await saveUserProgress(currentUser.uid, {
-                registrado: true,
-                usuario: { nombre, nacimiento: fecha, hora, lugar }
-            });
-            notify("✨ Sintonía completada");
+            await saveUserProgress(currentUser.uid, updates);
+            notify("✨ Sintonía guardada en la nube");
             modalRitual?.classList.remove('active');
         } catch (e) {
-            notify("Error al guardar");
+            notify("Error al guardar en la nube");
         }
+    } else {
+        // Guardar localmente
+        state = { ...state, ...updates };
+        localStorage.setItem('filosvida_local_user', JSON.stringify(state));
+        notify("✨ Sintonía activada localmente");
+        updateUI();
+        modalRitual?.classList.remove('active');
     }
+});
+
+/* ── NAVEGACIÓN ENTRE PASOS DEL MODAL ── */
+document.getElementById('link-goto-login')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    ritualStep1?.classList.add('active');
+    ritualStep2?.classList.remove('active');
+});
+
+document.getElementById('btn-goto-step2')?.addEventListener('click', () => {
+    ritualStep1?.classList.remove('active');
+    ritualStep2?.classList.add('active');
 });
 
 /* ── EVENTOS DE NAVEGACIÓN ── */
