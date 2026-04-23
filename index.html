@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FilosVida · Guía Holística IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- ══════════════════════════════════════
+             NAVBAR
+        ══════════════════════════════════════ -->
+        <nav class="navbar">
+            <div class="logo-wrapper" id="nav-inicio">
+                <div class="logo-icon-container">
+                    <svg class="loto-svg" viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10c0-3-2-6-5-7-1-.5-2-.5-3 0-1-.5-2-.5-3 0-3 1-5 4-5 7 0 6 8 10 8 10zM12 22s4-4 4-9c0-2.5-1-4.5-2.5-5.5-.5-.5-1-.5-1.5 0-.5-.5-1-.5-1.5 0-1.5 1-2.5 3-2.5 5.5 0 5 4 9 4 9zM12 17v5"/>
+                    </svg>
+                </div>
+                <div class="logo-text">Filos<span>Vida</span></div>
+            </div>
+            <div class="luna-chip-container" id="nav-packs">
+                <div class="luna-chip">🌙 <span id="moon-val">10</span> Lunas</div>
+                <div class="luna-gratis" id="luna-label">GRATIS</div>
+            </div>
+            <button id="btn-logout" class="btn btn-blanco" style="padding: 8px 16px; font-size: 12px; display: none;">Salir</button>
+        </nav>
+
+        <!-- ══════════════════════════════════════
+             PÁGINA: INICIO
+        ══════════════════════════════════════ -->
+        <div id="page-inicio" class="page active">
+            <header class="hero">
+                <h1 id="hero-title">¿El universo habla?<br>Quieres escucharlo</h1>
+                <p id="hero-desc" style="font-size: 14px; opacity: 0.8; margin-bottom: 25px;">Consultas holísticas para tu camino diario.</p>
+                <div class="hero-btns">
+                    <button class="btn btn-rosa active-beat" id="btn-ritual-start">Hacer una consulta</button>
+                    <button class="btn btn-blanco" id="btn-packs-hero" style="display:none;">🌙 Ver paquetes</button>
+                </div>
+            </header>
+            <section class="im-grid">
+                <div class="im-card" id="card-tarot" style="background: var(--rosa);">
+                    <span class="icon">🔮</span><span class="title">Tarot IA</span>
+                </div>
+                <div class="im-card" id="card-iching" style="background: var(--verde);">
+                    <span class="icon">☯️</span><span class="title">I Ching</span>
+                </div>
+                <div class="im-card" id="card-astral" style="background: var(--azul);">
+                    <span class="icon">✨</span><span class="title">Portal Astral</span>
+                </div>
+                <div class="im-card" id="card-suenos" style="background: var(--lila);">
+                    <span class="icon">🌌</span><span class="title">Sueños</span>
+                </div>
+                <div class="im-card" id="card-filosofia" style="background: var(--amarillo);">
+                    <span class="icon">🦉</span><span class="title">Filosofía</span>
+                </div>
+                <div class="im-card" id="card-diario" style="background: white; border: 2.5px solid var(--lila); grid-column: span 2;">
+                    <span class="icon">📖</span><span class="title">Mi Diario de Consultas</span>
+                </div>
+            </section>
+        </div>
+
+        <!-- ══════════════════════════════════════
+             PÁGINA: EL DIARIO
+        ══════════════════════════════════════ -->
+        <div id="page-diario" class="page">
+            <div style="padding: 20px; max-width: 600px; margin: 0 auto;">
+                <div class="modulo-box" style="border-color: var(--lila); width: 100%;">
+                    <h2>📖 Mi Diario</h2>
+                    <p>Tus encuentros con la sabiduría universal</p>
+                    <div id="diario-lista" style="text-align: left; margin-top: 30px;"></div>
+                    <button class="btn btn-blanco btn-full btn-volver-inicio" style="margin-top: 20px;">← Volver</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+             PÁGINA: PAQUETES
+        ══════════════════════════════════════ -->
+        <div id="page-packs" class="page">
+            <div style="padding: 20px; max-width: 500px; margin: 0 auto;">
+                <div class="pack-promo">
+                    <h2 style="font-weight: 800; margin-bottom: 6px;">✨ Recarga tus Lunas</h2>
+                    <p style="font-size: 14px;">Ilumina cada consulta con la energía correcta.</p>
+                </div>
+                <div class="pack-grid" id="pack-grid-container">
+                    <!-- Packs list -->
+                </div>
+                <button class="btn btn-blanco btn-full btn-volver-inicio">← Volver al inicio</button>
+            </div>
+        </div>
+
+        <!-- ... Other modules (Tarot, I Ching, etc.) will be dynamically shown/hidden ... -->
+        <div id="module-container"></div>
+
+        <!-- ══════════════════════════════════════
+             MODAL: RITUAL DE SINTONÍA (Auth + Profile)
+        ══════════════════════════════════════ -->
+        <div class="modal-overlay" id="modal-ritual">
+            <div class="ritual-card">
+                <button class="btn-close" id="btn-close-ritual">✕</button>
+                
+                <!-- PASO 1: IDENTIDAD -->
+                <div id="ritual-step-1" class="ritual-step active">
+                    <h2 style="font-weight: 800; margin-bottom: 6px;">Identidad</h2>
+                    <p style="font-size: 13px; opacity: 0.6; margin-bottom: 20px;">Inicia sesión para sintonizar con FilosVida</p>
+                    
+                    <div class="input-group"><label>Email</label><input type="email" id="auth-email" placeholder="tu@email.com"></div>
+                    <div class="input-group"><label>Contraseña</label><input type="password" id="auth-pass" placeholder="••••••••"></div>
+                    
+                    <button class="btn btn-rosa btn-full" id="btn-login">Entrar</button>
+                    <button class="btn btn-blanco btn-full" id="btn-signup" style="margin-top: 10px;">Crear cuenta</button>
+                    
+                    <div style="margin: 15px 0; opacity: 0.3; font-size: 11px;">O TAMBIÉN</div>
+                    
+                    <button class="btn google-btn btn-full" id="btn-google">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" style="margin-right: 8px;">
+                        Continuar con Google
+                    </button>
+                </div>
+
+                <!-- PASO 2: SINTONÍA -->
+                <div id="ritual-step-2" class="ritual-step">
+                    <h2 style="font-weight: 800; margin-bottom: 6px;">Ritual de Sintonía</h2>
+                    <p style="font-size: 13px; opacity: 0.6; margin-bottom: 20px;">Ingresá tus datos para personalizar tu experiencia</p>
+                    
+                    <div class="input-group"><label>Nombre</label><input type="text" id="reg-nombre" placeholder="Tu nombre"></div>
+                    <div style="display: flex; gap: 10px;">
+                        <div class="input-group" style="flex:1;"><label>Fecha de nacimiento</label><input type="date" id="reg-fecha"></div>
+                        <div class="input-group" style="flex:1;"><label>Hora</label><input type="time" id="reg-hora"></div>
+                    </div>
+                    <div class="input-group"><label>Lugar de nacimiento</label><input type="text" id="reg-lugar" placeholder="Ciudad, País"></div>
+                    
+                    <button class="btn btn-rosa active-beat btn-full" id="btn-finalizar-ritual">Sintonizar energía ✨</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="notif" class="notif">Bienvenido/a</div>
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

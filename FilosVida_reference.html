@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FilosVida · Guía Holística IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Palette: High-end Esoteric HSL */
+            --rosa: hsl(332, 100%, 80%);
+            --rosa-glow: hsla(332, 100%, 80%, 0.3);
+            --amarillo: hsl(55, 90%, 86%);
+            --verde: hsl(144, 61%, 88%);
+            --verde-deep: hsl(144, 61%, 20%);
+            --azul: hsl(200, 88%, 82%);
+            --lila: hsl(277, 86%, 86%);
+            --lila-deep: hsl(277, 86%, 20%);
+            --texto: hsl(30, 10%, 10%);
+            --gris-bg: hsl(30, 20%, 97%);
+            --gris-glass: hsla(0, 0%, 100%, 0.7);
+            --border-glass: hsla(0, 0%, 100%, 0.5);
+            
+            --r-lg: 32px;
+            --font-main: 'Outfit', sans-serif;
+            --shadow-soft: 0 10px 40px -10px hsla(0, 0%, 0%, 0.08);
+            --aura-rosa: 0 0 30px var(--rosa-glow);
+        }
+
+        /* ── NOISE TEXTURE ── */
+        body::before {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: url("https://www.transparenttextures.com/patterns/p6.png"); /* Subtle noise texture */
+            opacity: 0.15; pointer-events: none; z-index: 9999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: var(--font-main); background-color: var(--gris-bg); color: var(--texto); padding-bottom: 40px; }
+
+        /* ── NAVBAR ── */
+        .navbar {
+            position: sticky; top: 0; z-index: 1000;
+            background: var(--gris-glass); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 16px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .logo-wrapper { display: flex; align-items: center; gap: 12px; cursor: pointer; text-decoration: none; color: var(--texto); }
+        .logo-icon-container {
+            width: 45px; height: 45px; border-radius: 50%; border: 1.5px solid var(--texto);
+            overflow: hidden; display: flex; align-items: center; justify-content: center;
+            background: conic-gradient(var(--c1) 0deg 51.4deg, var(--c2) 51.4deg 102.8deg, var(--c3) 102.8deg 154.2deg,
+                var(--c4) 154.2deg 205.6deg, var(--c5) 205.6deg 257deg, var(--c6) 257deg 308.4deg, var(--c7) 308.4deg 360deg);
+        }
+        .loto-svg { width: 28px; height: 28px; }
+        .loto-svg path { fill: none; stroke: var(--texto); stroke-width: 1.8; stroke-linecap: round; }
+        .logo-text { font-weight: 800; font-size: 22px; }
+        .logo-text span { color: var(--rosa); }
+
+        .luna-chip-container { display: flex; flex-direction: column; align-items: center; min-width: 90px; }
+        .luna-chip { background: var(--amarillo); padding: 6px 16px; border-radius: 100px; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+        .luna-gratis { font-size: 10px; color: var(--rosa); font-weight: 800; margin-top: 2px; text-transform: uppercase; }
+
+        /* ── ANIMACIONES ── */
+        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fillEnergy { 0% { height: 0%; } 100% { height: 100%; } }
+        @keyframes flipCoin { 0% { transform: rotateX(0deg); } 50% { transform: rotateX(180deg); } 100% { transform: rotateX(360deg); } }
+
+        .active-beat { animation: beat 2s infinite ease-in-out; }
+
+        /* ── PÁGINAS ── */
+        .page { display: none; animation: fadeIn 0.4s ease both; }
+        .page.active { display: block; }
+
+        /* ── HERO ── */
+        .hero { background: var(--amarillo); padding: 45px 20px; text-align: center; border-radius: 0 0 var(--r-lg) var(--r-lg); }
+        .hero h1 { font-size: 28px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
+        .hero-btns { display: flex; gap: 10px; justify-content: center; max-width: 400px; margin: 0 auto; }
+
+        /* ── BOTONES GLOBALES ── */
+        .btn { border: none; padding: 16px 22px; border-radius: 100px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; justify-content: center; font-family: var(--font-main); }
+        .btn-rosa { background: var(--rosa); color: hsl(332, 50%, 20%); box-shadow: 0 4px 15px var(--rosa-glow); }
+        .btn-rosa:hover { box-shadow: 0 8px 25px var(--rosa-glow); transform: translateY(-2px); }
+        .btn-blanco { background: white; color: var(--texto); border: 1px solid var(--border-glass); }
+        .btn-verde { background: var(--verde); color: var(--verde-deep); }
+        .btn-lila { background: var(--lila); color: var(--lila-deep); }
+        .btn-amarillo { background: var(--amarillo); color: hsl(55, 50%, 20%); }
+        .btn-full { width: 100%; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* ── GRID MÓDULOS ── */
+        .im-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 25px 20px; }
+        .im-card {
+            border-radius: 20px; padding: 22px 15px; text-align: center;
+            border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            opacity: 0.4; cursor: not-allowed;
+            min-height: 125px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: 0.3s;
+        }
+        .im-card:hover.unlocked { transform: translateY(-8px); box-shadow: 0 15px 35px var(--rosa-glow); }
+        .im-card.unlocked { opacity: 1; cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .im-card .icon { font-size: 32px; display: block; margin-bottom: 8px; }
+        .im-card .title { font-weight: 800; font-size: 14px; }
+
+        /* ── MÓDULO CONTAINER (común) ── */
+        .modulo-box {
+            background: var(--gris-glass); backdrop-filter: blur(20px);
+            width: 100%; max-width: 480px;
+            border-radius: var(--r-lg); padding: 35px;
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow-soft);
+            text-align: center; margin: 30px auto;
+            position: relative; overflow: hidden;
+        }
+        .modulo-box::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, var(--rosa-glow) 0%, transparent 70%);
+            opacity: 0.1; pointer-events: none; z-index: -1;
+        }
+        .modulo-box h2 { font-weight: 800; font-size: 22px; margin-bottom: 6px; }
+        .modulo-box > p { font-size: 14px; opacity: 0.7; margin-bottom: 4px; }
+
+        .modulo-input {
+            width: 100%; padding: 15px; border-radius: 15px;
+            border: 2px solid var(--gris2); font-family: var(--font-main);
+            font-size: 15px; margin: 15px 0; outline: none; transition: 0.3s;
+        }
+        .modulo-textarea {
+            width: 100%; min-height: 130px; padding: 15px; border-radius: 15px;
+            border: 2px solid var(--gris2); font-family: var(--font-main);
+            font-size: 15px; margin: 15px 0; outline: none; resize: none; transition: 0.3s;
+        }
+
+        /* ── LOADER LOTO ── */
+        .loading-ia { display: none; flex-direction: column; align-items: center; gap: 15px; margin: 25px 0; }
+        .loto-loader {
+            width: 75px; height: 75px; border: 2px solid var(--texto); border-radius: 50%;
+            position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; background: white;
+        }
+        .loto-svg-inner { width: 45px; z-index: 5; position: relative; }
+        .loto-svg-inner path { fill: none; stroke: var(--texto); stroke-width: 1.5; stroke-linecap: round; }
+        .fill-progress {
+            position: absolute; bottom: 0; width: 100%; height: 0%;
+            background: conic-gradient(var(--c1), var(--c4), var(--c7));
+            animation: fillEnergy 4s forwards; z-index: 1;
+        }
+        .loading-ia p { font-size: 13px; font-weight: 600; }
+
+        /* ── RESULTADO ── */
+        .resultado-box {
+            display: none; text-align: left; padding: 25px; border-radius: 20px;
+            font-size: 15px; line-height: 1.7; font-style: italic; margin-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        .resultado-box h3 { font-style: normal; font-weight: 800; font-size: 16px; margin-bottom: 10px; }
+
+        /* ── VOLVER ── */
+        .btn-volver { margin-top: 20px; }
+
+        /* ────────────────────────────────────────
+           TAROT
+        ──────────────────────────────────────── */
+        .tarot-options { display: none; flex-direction: column; gap: 12px; }
+        .option-card {
+            background: white; border: 2.5px solid var(--gris2); border-radius: 20px;
+            padding: 18px; text-align: left; cursor: pointer; transition: 0.3s;
+        }
+        .option-card.pulsing { animation: beat 3s infinite; }
+        .luna-tag { background: var(--amarillo); padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 800; float: right; }
+
+        .mesa-lectura { display: none; margin-top: 20px; }
+        .cartas-grid { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .carta {
+            width: 75px; height: 120px; background: var(--rosa); border-radius: 12px;
+            border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; color: white; transition: 0.6s; font-size: 22px;
+        }
+        .carta.revelada { background: white; color: var(--texto); border-color: var(--rosa); transform: rotateY(180deg); }
+
+        /* ────────────────────────────────────────
+           I CHING
+        ──────────────────────────────────────── */
+        .mesa-monedas { display: none; margin-top: 20px; }
+        .monedas-container { display: flex; justify-content: center; gap: 20px; margin: 25px 0; }
+        .moneda {
+            width: 60px; height: 60px; background: var(--amarillo); border-radius: 50%;
+            border: 3px solid #E6D5A7; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 20px; box-shadow: 0 4px 0 #D4C18D; transition: 0.2s;
+        }
+        .moneda.flipping { animation: flipCoin 0.6s infinite; }
+
+        .hexagrama-display { display: flex; flex-direction: column-reverse; align-items: center; gap: 8px; margin: 20px 0; min-height: 120px; }
+        .linea { height: 12px; width: 120px; border-radius: 6px; transition: 0.5s; }
+        .linea.yang { background: var(--rosa); }
+        .linea.yin { background: transparent; display: flex; justify-content: space-between; }
+        .linea.yin::before, .linea.yin::after { content: ''; width: 52px; height: 100%; background: var(--azul); border-radius: 6px; }
+
+        /* ────────────────────────────────────────
+           PORTAL ASTRAL
+        ──────────────────────────────────────── */
+        .astral-grid-menu { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        .astral-card {
+            background: white; border: 2px solid var(--gris2); border-radius: 20px;
+            padding: 18px; text-align: left; cursor: pointer; transition: 0.3s; position: relative;
+        }
+        .astral-card:hover { border-color: var(--lila); }
+        .cost-tag { position: absolute; top: 15px; right: 15px; background: var(--gris2); padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: 800; }
+        .astral-card h3 { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+        .astral-card p { font-size: 12px; opacity: 0.7; line-height: 1.3; padding-right: 50px; }
+
+        #astral-form-pareja {
+            display: none; background: #FFF9FC; border-radius: 20px; padding: 20px;
+            margin-top: 10px; border: 1.5px dashed var(--rosa); text-align: left;
+            animation: fadeIn 0.4s ease;
+        }
+        .input-group { margin-bottom: 10px; }
+        .input-group label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 4px; opacity: 0.6; }
+        .input-group input { width: 100%; padding: 10px; border-radius: 10px; border: 1.5px solid var(--gris2); font-family: var(--font-main); outline: none; }
+
+        /* ────────────────────────────────────────
+           PAQUETES
+        ──────────────────────────────────────── */
+        .pack-promo { background: var(--verde); padding: 25px; border-radius: 20px; margin-bottom: 20px; color: var(--t-verde); text-align: center; }
+        .pack-card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .pack-premium { border: 2px solid var(--rosa); background: linear-gradient(135deg, white, var(--lila)); }
+        .pack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .pack-mini { background: white; border-radius: 18px; padding: 18px; text-align: center; border: 1.5px solid var(--gris2); box-shadow: 0 3px 10px rgba(0,0,0,0.04); }
+        .pack-mini h3 { font-size: 13px; font-weight: 800; margin-bottom: 4px; }
+        .pack-mini .lunas-num { font-size: 24px; font-weight: 800; color: var(--rosa); }
+        .pack-mini .precio { font-size: 14px; opacity: 0.6; margin-top: 4px; }
+        .pack-mini .btn { font-size: 12px; padding: 10px 14px; margin-top: 10px; }
+
+        /* ── MODAL RITUAL ── */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(4px); }
+        .modal-overlay.active { display: flex; }
+        .ritual-card { background: white; border-radius: var(--r-lg); width: 100%; max-width: 400px; padding: 30px; border: 2.5px solid var(--azul); text-align: center; position: relative; animation: fadeIn 0.3s ease; }
+        .btn-close { position: absolute; top: 15px; right: 15px; font-size: 20px; cursor: pointer; opacity: 0.5; background: none; border: none; }
+        .ritual-card .input-group { text-align: left; margin-bottom: 12px; }
+        .ritual-card .input-group input { width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid var(--gris2); font-family: var(--font-main); outline: none; font-size: 14px; }
+
+        /* ── PADDING MÓDULOS ── */
+        .page-modulo { padding: 0 16px; }
+
+        /* ── ALERTA LUNAS ── */
+        .alerta-lunas {
+            display: none; background: #FFF0F5; border: 1.5px solid var(--rosa);
+            border-radius: 16px; padding: 18px; margin: 15px 0; text-align: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .alerta-lunas p { font-size: 14px; margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════ -->
+<nav class="navbar">
+    <div class="logo-wrapper" onclick="goTo('inicio')">
+        <div class="logo-icon-container">
+            <svg class="loto-svg" viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10c0-3-2-6-5-7-1-.5-2-.5-3 0-1-.5-2-.5-3 0-3 1-5 4-5 7 0 6 8 10 8 10zM12 22s4-4 4-9c0-2.5-1-4.5-2.5-5.5-.5-.5-1-.5-1.5 0-.5-.5-1-.5-1.5 0-1.5 1-2.5 3-2.5 5.5 0 5 4 9 4 9zM12 17v5"/>
+            </svg>
+        </div>
+        <div class="logo-text">Filos<span>Vida</span></div>
+    </div>
+    <div class="luna-chip-container" onclick="goTo('packs')">
+        <div class="luna-chip">🌙 <span id="moon-val">10</span> Lunas</div>
+        <div class="luna-gratis" id="luna-label">GRATIS</div>
+    </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: INICIO
+══════════════════════════════════════ -->
+<div id="page-inicio" class="page active">
+    <header class="hero">
+        <h1 id="hero-title">¿El universo habla?<br>Quieres escucharlo</h1>
+        <p id="hero-desc" style="font-size: 14px; opacity: 0.8; margin-bottom: 25px;">Consultas holísticas para tu camino diario.</p>
+        <div class="hero-btns">
+            <button class="btn btn-rosa active-beat" id="btn-ritual-start" onclick="document.getElementById('modal-ritual').classList.add('active')">Hacer una consulta</button>
+            <button class="btn btn-blanco" id="btn-packs-hero" style="display:none;" onclick="goTo('packs')">🌙 Ver paquetes</button>
+        </div>
+    </header>
+    <section class="im-grid">
+        <div class="im-card" id="card-tarot" style="background: var(--rosa);">
+            <span class="icon">🔮</span><span class="title">Tarot IA</span>
+        </div>
+        <div class="im-card" id="card-iching" style="background: var(--verde);">
+            <span class="icon">☯️</span><span class="title">I Ching</span>
+        </div>
+        <div class="im-card" id="card-astral" style="background: var(--azul);">
+            <span class="icon">✨</span><span class="title">Portal Astral</span>
+        </div>
+        <div class="im-card" id="card-suenos" style="background: var(--lila);">
+            <span class="icon">🌌</span><span class="title">Sueños</span>
+        </div>
+        <div class="im-card" id="card-filosofia" style="background: var(--amarillo);">
+            <span class="icon">🦉</span><span class="title">Filosofía</span>
+        </div>
+        <div class="im-card" id="card-diario" style="background: white; border: 2.5px solid var(--lila); grid-column: span 2;">
+            <span class="icon">📖</span><span class="title">Mi Diario de Consultas</span>
+        </div>
+    </section>
+</div>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: EL DIARIO
+══════════════════════════════════════ -->
+<div id="page-diario" class="page">
+    <div style="padding: 20px; max-width: 600px; margin: 0 auto;">
+        <div class="modulo-box" style="border-color: var(--lila); width: 100%;">
+            <h2>📖 Mi Diario</h2>
+            <p>Tus encuentros con la sabiduría universal</p>
+            <div id="diario-lista" style="text-align: left; margin-top: 30px;">
+                <!-- Se llena con JS -->
+            </div>
+            <button class="btn btn-blanco btn-full" style="margin-top: 20px;" onclick="goTo('inicio')">← Volver</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: PAQUETES
+══════════════════════════════════════ -->
+<div id="page-packs" class="page">
+    <div style="padding: 20px; max-width: 500px; margin: 0 auto;">
+        <div class="pack-promo">
+            <h2 style="font-weight: 800; margin-bottom: 6px;">✨ Recarga tus Lunas</h2>
+            <p style="font-size: 14px;">Ilumina cada consulta con la energía correcta.</p>
+        </div>
+        <div class="pack-grid">
+            <div class="pack-mini">
+                <div class="lunas-num">15</div>
+                <h3>Cuarto de Luna</h3>
+                <div class="precio">$2.99</div>
+                <button class="btn btn-blanco btn-full" onclick="comprarLunas(15)">Adquirir</button>
+            </div>
+            <div class="pack-mini" style="border-color: var(--rosa);">
+                <div class="lunas-num">40</div>
+                <h3>Media Luna</h3>
+                <div class="precio">$6.99</div>
+                <button class="btn btn-rosa btn-full" onclick="comprarLunas(40)">Adquirir</button>
+            </div>
+            <div class="pack-mini">
+                <div class="lunas-num">100</div>
+                <h3>Luna Llena</h3>
+                <div class="precio">$14.99</div>
+                <button class="btn btn-blanco btn-full" onclick="comprarLunas(100)">Adquirir</button>
+            </div>
+            <div class="pack-mini" style="border-color: var(--lila);">
+                <div class="lunas-num">250</div>
+                <h3>Eclipse</h3>
+                <div class="precio">$29.99</div>
+                <button class="btn btn-lila btn-full" onclick="comprarLunas(250)">Adquirir</button>
+            </div>
+        </div>
+        <div class="pack-card pack-premium" style="text-align:center;">
+            <h3 style="color: var(--t-rosa); font-weight: 800; font-size: 18px;">🌟 Experiencia Universal</h3>
+            <p style="font-size: 13px; opacity: 0.8; margin: 8px 0;">Acceso ilimitado a todos los módulos y consultas prioritarias.</p>
+            <button class="btn btn-rosa active-beat btn-full" style="margin-top: 12px;">Ser Premium</button>
+        </div>
+        <button class="btn btn-blanco btn-full" onclick="goTo('inicio')">← Volver al inicio</button>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: TAROT IA
+══════════════════════════════════════ -->
+<div id="page-tarot" class="page page-modulo">
+    <div class="modulo-box" style="border: 1.5px solid var(--rosa);">
+        <h2>🔮 Tarot IA</h2>
+        <p>Conecta con tu intención y escribe tu pregunta:</p>
+
+        <div id="tarot-alerta" class="alerta-lunas">
+            <p>Necesitas más Lunas para esta consulta.</p>
+            <button class="btn btn-rosa" onclick="goTo('packs')">Recargar Lunas 🌙</button>
+        </div>
+
+        <textarea id="tarot-pregunta" class="modulo-textarea" placeholder="¿Qué mensaje tiene el universo para mí?" oninput="tarotValidar()"></textarea>
+
+        <div class="tarot-options" id="tarot-opciones">
+            <div class="option-card pulsing" onclick="tarotSeleccionar(3, 2)" style="border-color: var(--azul);">
+                <span class="luna-tag">🌙 2</span>
+                <strong>Lectura Abreviada</strong>
+                <p style="font-size: 12px; opacity: 0.7; margin-top: 4px;">3 cartas: Pasado, presente y futuro directo.</p>
+            </div>
+            <div class="option-card pulsing" onclick="tarotSeleccionar(5, 3)" style="border-color: var(--lila);">
+                <span class="luna-tag">🌙 3</span>
+                <strong>Lectura Extendida</strong>
+                <p style="font-size: 12px; opacity: 0.7; margin-top: 4px;">5 cartas: Análisis profundo y guía detallada.</p>
+            </div>
+        </div>
+
+        <div class="mesa-lectura" id="tarot-mesa">
+            <div class="cartas-grid" id="tarot-grid"></div>
+            <button class="btn btn-rosa btn-full" id="tarot-btn-iniciar" onclick="tarotProcesar()">Iniciar interpretación</button>
+        </div>
+
+        <div class="loading-ia" id="tarot-cargando">
+            <div class="loto-loader">
+                <svg class="loto-svg-inner" viewBox="0 0 24 24">
+                    <path d="M12 22s8-4 8-10c0-3-2-6-5-7-1-.5-2-.5-3 0-1-.5-2-.5-3 0-3 1-5 4-5 7 0 6 8 10 8 10zM12 22s4-4 4-9c0-2.5-1-4.5-2.5-5.5-.5-.5-1-.5-1.5 0-.5-.5-1-.5-1.5 0-1.5 1-2.5 3-2.5 5.5 0 5 4 9 4 9zM12 17v5"/>
+                </svg>
+                <div class="fill-progress"></div>
+            </div>
+            <p>La IA está sintonizando con los Arcanos...</p>
+        </div>
+
+        <div class="resultado-box" id="tarot-resultado" style="background: var(--lila);">
+            <h3>Mensaje del Oráculo:</h3>
+            <p id="tarot-texto"></p>
+        </div>
+
+        <button class="btn btn-blanco btn-full btn-volver" onclick="resetModulo('tarot'); goTo('inicio')">← Volver</button>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: I CHING
+══════════════════════════════════════ -->
+<div id="page-iching" class="page page-modulo">
+    <div class="modulo-box" style="border: 1.5px solid var(--verde);">
+        <h2>☯️ I Ching AI</h2>
+        <p>Formula una pregunta clara para el Libro de las Mutaciones:</p>
+
+        <div id="iching-alerta" class="alerta-lunas">
+            <p>Necesitas más Lunas para esta consulta.</p>
+            <button class="btn btn-rosa" onclick="goTo('packs')">Recargar Lunas 🌙</button>
+        </div>
+
+        <input type="text" id="iching-pregunta" class="modulo-input" placeholder="¿Cómo debo actuar ante esta situación?" oninput="ichingValidar()">
+        <button class="btn btn-verde btn-full" id="iching-btn-iniciar" style="display:none;" onclick="ichingIniciar()">Consultar Oráculo (🌙 3)</button>
+
+        <div class="mesa-monedas" id="iching-mesa">
+            <p style="font-size: 13px; font-weight: 600; opacity: 0.7; margin-bottom: 10px;" id="iching-paso">Construyendo hexagrama: Paso 1 de 6</p>
+            <div class="hexagrama-display" id="iching-hexagrama"></div>
+            <div class="monedas-container">
+                <div class="moneda" id="ic-m1">☯</div>
+                <div class="moneda" id="ic-m2">☯</div>
+                <div class="moneda" id="ic-m3">☯</div>
+            </div>
+            <button class="btn btn-verde btn-full" id="iching-btn-lanzar" onclick="ichingLanzar()">Lanzar monedas</button>
+        </div>
+
+        <div class="loading-ia" id="iching-cargando">
+            <div class="loto-loader">
+                <svg class="loto-svg-inner" viewBox="0 0 24 24">
+                    <path d="M12 22s8-4 8-10c0-3-2-6-5-7-1-.5-2-.5-3 0-1-.5-2-.5-3 0-3 1-5 4-5 7 0 6 8 10 8 10zM12 22s4-4 4-9c0-2.5-1-4.5-2.5-5.5-.5-.5-1-.5-1.5 0-.5-.5-1-.5-1.5 0-1.5 1-2.5 3-2.5 5.5 0 5 4 9 4 9zM12 17v5"/>
+                </svg>
+                <div class="fill-progress"></div>
+            </div>
+            <p>La IA está interpretando el Hexagrama...</p>
+        </div>
+
+        <div class="resultado-box" id="iching-resultado" style="background: var(--verde);">
+            <h3>Sabiduría del I Ching:</h3>
+            <p id="iching-texto"></p>
+        </div>
+
+        <button class="btn btn-blanco btn-full btn-volver" onclick="resetModulo('iching'); goTo('inicio')">← Volver</button>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: PORTAL ASTRAL
+══════════════════════════════════════ -->
+<div id="page-astral" class="page page-modulo">
+    <div class="modulo-box" style="border: 1.5px solid var(--lila);">
+        <div id="astral-header">
+            <h2>✨ Portal Astral</h2>
+            <p>Sintoniza con la sabiduría de los astros</p>
+        </div>
+
+        <div id="astral-alerta" class="alerta-lunas">
+            <p>Necesitas más Lunas para esta consulta.</p>
+            <button class="btn btn-rosa" onclick="goTo('packs')">Recargar Lunas 🌙</button>
+        </div>
+
+        <div class="astral-grid-menu" id="astral-menu" style="margin-top: 20px;">
+            <div class="astral-card" onclick="astralLectura('Carta Natal', 5, 'Analizando tu promesa natal...')">
+                <div class="cost-tag">🌙 5</div>
+                <h3>☀️ Carta Natal</h3>
+                <p>Esencia, fortalezas y desafíos únicos según tu mapa natal.</p>
+            </div>
+            <div class="astral-card" onclick="astralLectura('Astrología Evolutiva', 5, 'Explorando tu misión de vida...')">
+                <div class="cost-tag">🌙 5</div>
+                <h3>🌱 Evolutiva / Psicológica</h3>
+                <p>Crecimiento personal y aprendizaje de patrones de alma.</p>
+            </div>
+            <div class="astral-card" onclick="astralLectura('Tránsitos', 5, 'Calculando el clima astral actual...')">
+                <div class="cost-tag">🌙 5</div>
+                <h3>🪐 Tránsitos y Progresiones</h3>
+                <p>Influencia planetaria actual para tu toma de decisiones.</p>
+            </div>
+            <div class="astral-card" onclick="astralLectura('Revolución Solar', 5, 'Interpretando tu ciclo anual...')">
+                <div class="cost-tag">🌙 5</div>
+                <h3>🎂 Revolución Solar</h3>
+                <p>Tendencias principales para tus próximos 12 meses.</p>
+            </div>
+            <div class="astral-card" style="border-color: var(--rosa);" onclick="astralTogglePareja()">
+                <div class="cost-tag" style="background: var(--rosa); color: white;">🌙 7</div>
+                <h3>❤️ Sinastría de Pareja</h3>
+                <p>Compatibilidad y dinámica vincular profunda.</p>
+            </div>
+            <div id="astral-form-pareja">
+                <h4 style="font-size: 13px; margin-bottom: 10px;">Datos de la pareja:</h4>
+                <div class="input-group"><label>Nombre</label><input type="text" placeholder="Nombre"></div>
+                <div style="display: flex; gap: 8px;">
+                    <div class="input-group" style="flex:2;"><label>Fecha</label><input type="date"></div>
+                    <div class="input-group" style="flex:1;"><label>Hora</label><input type="time"></div>
+                </div>
+                <div class="input-group"><label>Lugar de nacimiento</label><input type="text" placeholder="Ciudad, País"></div>
+                <button class="btn btn-rosa btn-full" onclick="astralLectura('Sinastría', 7, 'Comparando campos vibratorios...')">Vincular (🌙 7)</button>
+            </div>
+            <div class="astral-card" onclick="astralLectura('Misión de Destino', 5, 'Descifrando tu propósito espiritual...')">
+                <div class="cost-tag">🌙 5</div>
+                <h3>🌙 Misión de Destino</h3>
+                <p>Análisis de Nodos Lunares: Tu camino del Karma al Dharma.</p>
+            </div>
+        </div>
+
+        <div class="loading-ia" id="astral-cargando">
+            <div class="loto-loader">
+                <svg class="loto-svg-inner" viewBox="0 0 24 24">
+                    <path d="M12 22s8-4 8-10c0-3-2-6-5-7-1-.5-2-.5-3 0-1-.5-2-.5-3 0-3 1-5 4-5 7 0 6 8 10 8 10zM12 22s4-4 4-9c0-2.5-1-4.5-2.5-5.5-.5-.5-1-.5-1.5 0-.5-.5-1-.5-1.5 0-1.5 1-2.5 3-2.5 5.5 0 5 4 9 4 9zM12 17v5"/>
+                </svg>
+                <div class="fill-progress"></div>
+            </div>
+            <p id="astral-loading-text">Sintonizando con los astros...</p>
+        </div>
+
+        <div class="resultado-box" id="astral-resultado" style="background: #F9F7FF; border-left: 4px solid var(--lila);">
+            <h3 id="astral-titulo-res">Tu lectura:</h3>
+            <p id="astral-texto"></p>
+        </div>
+
+        <button class="btn btn-blanco btn-full btn-volver" onclick="resetModulo('astral'); goTo('inicio')">← Volver</button>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: SUEÑOS
+══════════════════════════════════════ -->
+<div id="page-suenos" class="page page-modulo">
+    <div class="modulo-box" style="border: 1.5px solid var(--azul);">
+        <h2>🌌 Sueños AI</h2>
+        <p>Describe tu sueño con el mayor detalle posible:</p>
+
+        <div id="suenos-alerta" class="alerta-lunas">
+            <p>Necesitas más Lunas para esta consulta.</p>
+            <button class="btn btn-rosa" onclick="goTo('packs')">Recargar Lunas 🌙</button>
+        </div>
+
+        <textarea id="suenos-texto" class="modulo-textarea" placeholder="Cuéntame qué viste, qué sentiste y qué símbolos recuerdas..." oninput="suenosValidar()"></textarea>
+        <button class="btn btn-lila btn-full" id="suenos-btn" style="display:none;" onclick="suenosIniciar()">Interpretar Sueño (🌙 5)</button>
+
+        <div class="loading-ia" id="suenos-cargando">
+            <div class="loto-loader">
+                <svg class="loto-svg-inner" viewBox="0 0 24 24">
+                    <path d="M12 22s8-4 8-10c0-3-2-6-5-7-1-.5-2-.5-3 0-1-.5-2-.5-3 0-3 1-5 4-5 7 0 6 8 10 8 10zM12 22s4-4 4-9c0-2.5-1-4.5-2.5-5.5-.5-.5-1-.5-1.5 0-.5-.5-1-.5-1.5 0-1.5 1-2.5 3-2.5 5.5 0 5 4 9 4 9zM12 17v5"/>
+                </svg>
+                <div class="fill-progress"></div>
+            </div>
+            <p>La IA está descifrando tu inconsciente...</p>
+        </div>
+
+        <div class="resultado-box" id="suenos-resultado" style="background: #F7F0FF; border-left: 5px solid var(--lila);">
+            <h3>Análisis del Sueño:</h3>
+            <p id="suenos-texto-ia"></p>
+        </div>
+
+        <button class="btn btn-blanco btn-full btn-volver" onclick="resetModulo('suenos'); goTo('inicio')">← Volver</button>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: FILOSOFÍA
+══════════════════════════════════════ -->
+<div id="page-filosofia" class="page page-modulo">
+    <div class="modulo-box" style="border: 1.5px solid var(--amarillo);">
+        <h2>🦉 Filosofía AI</h2>
+        <p>¿Qué situación o dilema existencial querés analizar bajo una mirada filosófica?</p>
+
+        <div id="filosofia-alerta" class="alerta-lunas">
+            <p>Necesitas más Lunas para esta consulta.</p>
+            <button class="btn btn-rosa" onclick="goTo('packs')">Recargar Lunas 🌙</button>
+        </div>
+
+        <textarea id="filosofia-texto" class="modulo-textarea" placeholder="Describe tu momento personal o dilema..." oninput="filosofiaValidar()"></textarea>
+        <button class="btn btn-amarillo btn-full" id="filosofia-btn" style="display:none;" onclick="filosofiaIniciar()">Recibir Consejo (🌙 3)</button>
+
+        <div class="loading-ia" id="filosofia-cargando">
+            <div class="loto-loader">
+                <svg class="loto-svg-inner" viewBox="0 0 24 24">
+                    <path d="M12 22s8-4 8-10c0-3-2-6-5-7-1-.5-2-.5-3 0-1-.5-2-.5-3 0-3 1-5 4-5 7 0 6 8 10 8 10zM12 22s4-4 4-9c0-2.5-1-4.5-2.5-5.5-.5-.5-1-.5-1.5 0-.5-.5-1-.5-1.5 0-1.5 1-2.5 3-2.5 5.5 0 5 4 9 4 9zM12 17v5"/>
+                </svg>
+                <div class="fill-progress"></div>
+            </div>
+            <p>La IA está consultando con los grandes sabios...</p>
+        </div>
+
+        <div class="resultado-box" id="filosofia-resultado" style="background: #FFFDF0; border-left: 5px solid var(--amarillo);">
+            <h3>Perspectiva Filosófica:</h3>
+            <p id="filosofia-texto-ia"></p>
+        </div>
+
+        <button class="btn btn-blanco btn-full btn-volver" onclick="resetModulo('filosofia'); goTo('inicio')">← Volver</button>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: AMULETOS
+══════════════════════════════════════ -->
+<div id="page-amuletos" class="page page-modulo">
+    <div class="modulo-box" style="border: 1.5px solid var(--verde);">
+        <h2>🌿 Amuletos AI</h2>
+        <p>¿Para qué propósito necesitás un amuleto natural hoy?</p>
+
+        <div id="amuletos-alerta" class="alerta-lunas">
+            <p>Necesitas más Lunas para esta consulta.</p>
+            <button class="btn btn-rosa" onclick="goTo('packs')">Recargar Lunas 🌙</button>
+        </div>
+
+        <input type="text" id="amuletos-input" class="modulo-input" placeholder="Ej: protección, calma, abundancia..." oninput="amuletosValidar()">
+        <button class="btn btn-verde btn-full" id="amuletos-btn" style="display:none;" onclick="amuletosIniciar()">Crear Amuleto (🌙 2)</button>
+
+        <div class="loading-ia" id="amuletos-cargando">
+            <div class="loto-loader">
+                <svg class="loto-svg-inner" viewBox="0 0 24 24">
+                    <path d="M12 22s8-4 8-10c0-3-2-6-5-7-1-.5-2-.5-3 0-1-.5-2-.5-3 0-3 1-5 4-5 7 0 6 8 10 8 10zM12 22s4-4 4-9c0-2.5-1-4.5-2.5-5.5-.5-.5-1-.5-1.5 0-.5-.5-1-.5-1.5 0-1.5 1-2.5 3-2.5 5.5 0 5 4 9 4 9zM12 17v5"/>
+                </svg>
+                <div class="fill-progress"></div>
+            </div>
+            <p>La IA está seleccionando tus hierbas y piedras...</p>
+        </div>
+
+        <div class="resultado-box" id="amuletos-resultado" style="background: #F0F9F4; border-left: 5px solid var(--verde);">
+            <h3>Tu Amuleto Sugerido:</h3>
+            <p id="amuletos-texto-ia"></p>
+        </div>
+
+        <button class="btn btn-blanco btn-full btn-volver" onclick="resetModulo('amuletos'); goTo('inicio')">← Volver</button>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MODAL: RITUAL DE SINTONÍA
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-ritual">
+    <div class="ritual-card">
+        <button class="btn-close" onclick="document.getElementById('modal-ritual').classList.remove('active')">✕</button>
+        <h2 style="font-weight: 800; margin-bottom: 6px;">Ritual de Sintonía</h2>
+        <p style="font-size: 13px; opacity: 0.6; margin-bottom: 20px;">Ingresá tus datos para personalizar tu experiencia</p>
+        <div class="input-group"><label>Nombre</label><input type="text" id="reg-nombre" placeholder="Tu nombre"></div>
+        <div style="display: flex; gap: 10px;">
+            <div class="input-group" style="flex:1;"><label>Fecha de nacimiento</label><input type="date" id="reg-fecha"></div>
+            <div class="input-group" style="flex:1;"><label>Hora</label><input type="time" id="reg-hora"></div>
+        </div>
+        <div class="input-group"><label>Lugar de nacimiento</label><input type="text" placeholder="Ciudad, País"></div>
+        <div class="input-group"><label>Email</label><input type="email" placeholder="Para tu guía personal"></div>
+        <button class="btn btn-rosa active-beat btn-full" onclick="finalizarRitual()">Sintonizar energía ✨</button>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════ -->
+<script>
+    /* ── ESTADO GLOBAL Y PERSISTENCIA ── */
+    let state = {
+        lunas: 10,
+        registrado: false,
+        usuario: {
+            nombre: '',
+            nacimiento: '',
+            hora: '',
+            lugar: '',
+            email: ''
+        },
+        historial: []
+    };
+
+    // Cargar estado
+    function loadState() {
+        const saved = localStorage.getItem('filovida_state');
+        if (saved) {
+            state = JSON.parse(saved);
+            if (state.registrado) {
+                aplicarRegistroExistente();
+            }
+        }
+        actualizarLunas();
+    }
+
+    function saveState() {
+        localStorage.setItem('filovida_state', JSON.stringify(state));
+    }
+
+    function aplicarRegistroExistente() {
+        const n = state.usuario.nombre;
+        document.getElementById('hero-title').innerHTML = `¡Bienvenido/a ${n}<br>a FilosVida!`;
+        document.getElementById('btn-ritual-start').style.display = 'none';
+        document.getElementById('btn-packs-hero').style.display = 'flex';
+        document.getElementById('btn-packs-hero').classList.add('active-beat');
+        document.querySelectorAll('.im-card').forEach(c => c.classList.add('unlocked'));
+        conectarTarjetas();
+    }
+
+    /* ── NAVEGACIÓN ── */
+    function goTo(id) {
+        document.querySelectorAll('.page').forEach(p => {
+            p.classList.remove('active');
+            p.style.opacity = '0';
+        });
+        const target = document.getElementById('page-' + id);
+        target.classList.add('active');
+        setTimeout(() => target.style.opacity = '1', 10);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ── LUNAS ── */
+    function actualizarLunas() {
+        document.getElementById('moon-val').innerText = state.lunas;
+        document.getElementById('luna-label').innerText = state.lunas > 0 ? (state.registrado ? 'TOCA PARA RECARGAR' : 'GRATIS') : '¡RECARGA!';
+    }
+
+    function verificarLunas(costo, alertaId) {
+        if (state.lunas < costo) {
+            document.getElementById(alertaId).style.display = 'block';
+            return false;
+        }
+        document.getElementById(alertaId).style.display = 'none';
+        return true;
+    }
+
+    function descontarLunas(costo) {
+        state.lunas -= costo;
+        saveState();
+        actualizarLunas();
+    }
+
+    function comprarLunas(cantidad) {
+        state.lunas += cantidad;
+        saveState();
+        actualizarLunas();
+        mostrarNotificacion(`✨ ¡${cantidad} Lunas agregadas!`);
+    }
+
+    function mostrarNotificacion(msj) {
+        const n = document.createElement('div');
+        n.style = "position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--texto); color:white; padding:12px 24px; border-radius:100px; font-weight:800; font-size:14px; z-index:9999; animation:fadeIn 0.3s ease both;";
+        n.innerText = msj;
+        document.body.appendChild(n);
+        setTimeout(() => { n.style.opacity = '0'; setTimeout(() => n.remove(), 500); }, 3000);
+    }
+
+    /* ── RITUAL (REGISTRO) ── */
+    function finalizarRitual() {
+        const n = document.getElementById('reg-nombre').value.trim();
+        const f = document.getElementById('reg-fecha').value;
+        const h = document.getElementById('reg-hora').value;
+        
+        if (!n || !f) { alert('Por favor completá los datos esenciales.'); return; }
+        
+        state.registrado = true;
+        state.usuario = {
+            nombre: n,
+            nacimiento: f,
+            hora: h,
+            lugar: document.querySelector('#modal-ritual input[placeholder="Ciudad, País"]').value,
+            email: document.querySelector('#modal-ritual input[type="email"]').value
+        };
+        
+        saveState();
+        document.getElementById('modal-ritual').classList.remove('active');
+        aplicarRegistroExistente();
+        actualizarLunas();
+    }
+    
+    // Iniciar
+    document.addEventListener('DOMContentLoaded', loadState);
+
+    function conectarTarjetas() {
+        document.getElementById('card-tarot').onclick = () => goTo('tarot');
+        document.getElementById('card-iching').onclick = () => goTo('iching');
+        document.getElementById('card-astral').onclick = () => goTo('astral');
+        document.getElementById('card-suenos').onclick = () => goTo('suenos');
+        document.getElementById('card-filosofia').onclick = () => goTo('filosofia');
+        document.getElementById('card-amuletos').onclick = () => goTo('amuletos');
+        document.getElementById('card-diario').onclick = () => { cargarDiario(); goTo('diario'); };
+    }
+
+    /* ── DIARIO ── */
+    function registrarConsulta(modulo, pregunta, resultado) {
+        state.historial.unshift({
+            fecha: new Date().toLocaleString(),
+            modulo,
+            pregunta,
+            resultado
+        });
+        saveState();
+    }
+
+    function cargarDiario() {
+        const lista = document.getElementById('diario-lista');
+        if (state.historial.length === 0) {
+            lista.innerHTML = '<p style="text-align:center; opacity:0.5; padding: 40px 0;">Aún no has realizado consultas.</p>';
+            return;
+        }
+        lista.innerHTML = state.historial.map(item => `
+            <div style="background: white; border-radius: 15px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--lila); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                <div style="font-size: 11px; opacity: 0.5; font-weight: 800; margin-bottom: 5px;">${item.fecha} • ${item.modulo.toUpperCase()}</div>
+                <div style="font-weight: 800; font-size: 14px; margin-bottom: 8px;">"${item.pregunta}"</div>
+                <div style="font-size: 13px; opacity: 0.8; font-style: italic; line-height: 1.5;">${item.resultado}</div>
+            </div>
+        `).join('');
+    }
+
+    /* ── RESET MÓDULO ── */
+    function resetModulo(mod) {
+        switch(mod) {
+            case 'tarot':
+                document.getElementById('tarot-pregunta').value = '';
+                document.getElementById('tarot-pregunta').disabled = false;
+                document.getElementById('tarot-opciones').style.display = 'none';
+                document.getElementById('tarot-mesa').style.display = 'none';
+                document.getElementById('tarot-cargando').style.display = 'none';
+                document.getElementById('tarot-resultado').style.display = 'none';
+                document.getElementById('tarot-alerta').style.display = 'none';
+                document.getElementById('tarot-btn-iniciar').style.display = 'block';
+                tarotCartas = 0;
+                break;
+            case 'iching':
+                document.getElementById('iching-pregunta').value = '';
+                document.getElementById('iching-pregunta').disabled = false;
+                document.getElementById('iching-btn-iniciar').style.display = 'none';
+                document.getElementById('iching-mesa').style.display = 'none';
+                document.getElementById('iching-cargando').style.display = 'none';
+                document.getElementById('iching-resultado').style.display = 'none';
+                document.getElementById('iching-alerta').style.display = 'none';
+                document.getElementById('iching-hexagrama').innerHTML = '';
+                document.getElementById('ic-m1').innerText = '☯';
+                document.getElementById('ic-m2').innerText = '☯';
+                document.getElementById('ic-m3').innerText = '☯';
+                ichingLanzamientos = 0;
+                break;
+            case 'astral':
+                document.getElementById('astral-header').style.display = 'block';
+                document.getElementById('astral-menu').style.display = 'grid';
+                document.getElementById('astral-cargando').style.display = 'none';
+                document.getElementById('astral-resultado').style.display = 'none';
+                document.getElementById('astral-alerta').style.display = 'none';
+                document.getElementById('astral-form-pareja').style.display = 'none';
+                break;
+            case 'suenos':
+                document.getElementById('suenos-texto').value = '';
+                document.getElementById('suenos-texto').disabled = false;
+                document.getElementById('suenos-btn').style.display = 'none';
+                document.getElementById('suenos-cargando').style.display = 'none';
+                document.getElementById('suenos-resultado').style.display = 'none';
+                document.getElementById('suenos-alerta').style.display = 'none';
+                break;
+            case 'filosofia':
+                document.getElementById('filosofia-texto').value = '';
+                document.getElementById('filosofia-texto').disabled = false;
+                document.getElementById('filosofia-btn').style.display = 'none';
+                document.getElementById('filosofia-cargando').style.display = 'none';
+                document.getElementById('filosofia-resultado').style.display = 'none';
+                document.getElementById('filosofia-alerta').style.display = 'none';
+                break;
+            case 'amuletos':
+                document.getElementById('amuletos-input').value = '';
+                document.getElementById('amuletos-input').disabled = false;
+                document.getElementById('amuletos-btn').style.display = 'none';
+                document.getElementById('amuletos-cargando').style.display = 'none';
+                document.getElementById('amuletos-resultado').style.display = 'none';
+                document.getElementById('amuletos-alerta').style.display = 'none';
+                break;
+        }
+    }
+
+    /* ════════════════════════════════
+       TAROT
+    ════════════════════════════════ */
+    function tarotValidar() {
+        const p = document.getElementById('tarot-pregunta').value;
+        document.getElementById('tarot-opciones').style.display = p.length > 5 ? 'flex' : 'none';
+    }
+
+    function tarotSeleccionar(num, costo) {
+        if (!verificarLunas(costo, 'tarot-alerta')) return;
+        descontarLunas(costo);
+        tarotCartas = num;
+        document.getElementById('tarot-opciones').style.display = 'none';
+        document.getElementById('tarot-pregunta').disabled = true;
+        document.getElementById('tarot-mesa').style.display = 'block';
+        const grid = document.getElementById('tarot-grid');
+        grid.innerHTML = '';
+        for (let i = 0; i < num; i++) {
+            const c = document.createElement('div');
+            c.className = 'carta';
+            c.innerText = '?';
+            grid.appendChild(c);
+        }
+    }
+
+    function tarotProcesar() {
+        document.getElementById('tarot-btn-iniciar').style.display = 'none';
+        document.getElementById('tarot-cargando').style.display = 'flex';
+        reiniciarLoader('tarot-cargando');
+        setTimeout(() => {
+            document.getElementById('tarot-cargando').style.display = 'none';
+            tarotRevelar();
+        }, 4000);
+    }
+
+    function tarotRevelar() {
+        const cartas = document.querySelectorAll('#tarot-grid .carta');
+        cartas.forEach((c, i) => {
+            setTimeout(() => {
+                c.classList.add('revelada');
+                c.innerText = '🃏';
+            }, i * 450);
+        });
+        setTimeout(() => {
+            const res = "Los Arcanos revelan una fase de introspección necesaria. Tu pasado te ha dotado de la sabiduría para afrontar los cambios actuales. El presente pide que confíes en tu intuición más que en la lógica. El futuro muestra un ciclo de renovación profunda si mantenés la coherencia entre tus palabras y tus acciones.";
+            document.getElementById('tarot-resultado').style.display = 'block';
+            document.getElementById('tarot-texto').innerText = res;
+            registrarConsulta('Tarot', document.getElementById('tarot-pregunta').value, res);
+        }, tarotCartas * 450 + 500);
+    }
+
+    /* ════════════════════════════════
+       I CHING
+    ════════════════════════════════ */
+    function ichingValidar() {
+        const p = document.getElementById('iching-pregunta').value;
+        document.getElementById('iching-btn-iniciar').style.display = p.length > 5 ? 'block' : 'none';
+    }
+
+    function ichingIniciar() {
+        if (!verificarLunas(3, 'iching-alerta')) return;
+        descontarLunas(3);
+        document.getElementById('iching-pregunta').disabled = true;
+        document.getElementById('iching-btn-iniciar').style.display = 'none';
+        document.getElementById('iching-mesa').style.display = 'block';
+    }
+
+    function ichingLanzar() {
+        const btn = document.getElementById('iching-btn-lanzar');
+        btn.disabled = true;
+        const m1 = document.getElementById('ic-m1');
+        const m2 = document.getElementById('ic-m2');
+        const m3 = document.getElementById('ic-m3');
+        m1.classList.add('flipping'); m2.classList.add('flipping'); m3.classList.add('flipping');
+        setTimeout(() => {
+            m1.classList.remove('flipping'); m2.classList.remove('flipping'); m3.classList.remove('flipping');
+            const v1 = Math.random() > 0.5 ? 3 : 2;
+            const v2 = Math.random() > 0.5 ? 3 : 2;
+            const v3 = Math.random() > 0.5 ? 3 : 2;
+            m1.innerText = v1; m2.innerText = v2; m3.innerText = v3;
+            const suma = v1 + v2 + v3;
+            const tipo = (suma % 2 === 0) ? 'yin' : 'yang';
+            const linea = document.createElement('div');
+            linea.className = `linea ${tipo}`;
+            document.getElementById('iching-hexagrama').appendChild(linea);
+            ichingLanzamientos++;
+            if (ichingLanzamientos < 6) {
+                document.getElementById('iching-paso').innerText = `Construyendo hexagrama: Paso ${ichingLanzamientos + 1} de 6`;
+                btn.disabled = false;
+            } else {
+                ichingProcesar();
+            }
+        }, 1200);
+    }
+
+    function ichingProcesar() {
+        document.getElementById('iching-mesa').style.display = 'none';
+        document.getElementById('iching-cargando').style.display = 'flex';
+        reiniciarLoader('iching-cargando');
+        setTimeout(() => {
+            const res = "El hexagrama revela 'La Fuerza Creativa'. El universo te indica que es momento de actuar con decisión pero manteniendo la integridad. Los obstáculos actuales se disolverán si mantenés la constancia y la calma. No hay fuerza mayor que la que surge de la alineación entre tu voluntad interior y el flujo natural de los acontecimentos.";
+            document.getElementById('iching-cargando').style.display = 'none';
+            document.getElementById('iching-resultado').style.display = 'block';
+            document.getElementById('iching-texto').innerText = res;
+            registrarConsulta('I Ching', document.getElementById('iching-pregunta').value, res);
+            mostrarNotificacion("✨ Sabiduría recibida");
+        }, 4000);
+    }
+
+    /* ════════════════════════════════
+       PORTAL ASTRAL
+    ════════════════════════════════ */
+    function astralTogglePareja() {
+        const f = document.getElementById('astral-form-pareja');
+        f.style.display = f.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function astralLectura(tipo, costo, msg) {
+        if (!verificarLunas(costo, 'astral-alerta')) return;
+        descontarLunas(costo);
+        document.getElementById('astral-menu').style.display = 'none';
+        document.getElementById('astral-header').style.display = 'none';
+        document.getElementById('astral-loading-text').innerText = msg;
+        document.getElementById('astral-cargando').style.display = 'flex';
+        reiniciarLoader('astral-cargando');
+        setTimeout(() => {
+            const res = "Los astros indican un período de gran claridad interior. La posición de Júpiter en tu mapa sugiere que el éxito vendrá a través de la expansión de tu red de contactos y la confianza en tu propia voz. Saturno te pide paciencia: los frutos de tus esfuerzos actuales llegarán en el momento preciso que el cosmos ha dispuesto.";
+            document.getElementById('astral-cargando').style.display = 'none';
+            document.getElementById('astral-titulo-res').innerText = 'Tu lectura de ' + tipo;
+            document.getElementById('astral-texto').innerText = res;
+            document.getElementById('astral-resultado').style.display = 'block';
+            registrarConsulta('Portal Astral', tipo, res);
+            mostrarNotificacion("✨ Alalineación completada");
+        }, 4000);
+    }
+
+    /* ════════════════════════════════
+       SUEÑOS
+    ════════════════════════════════ */
+    function suenosValidar() {
+        const t = document.getElementById('suenos-texto').value;
+        document.getElementById('suenos-btn').style.display = t.length > 10 ? 'block' : 'none';
+    }
+
+    function suenosIniciar() {
+        if (!verificarLunas(5, 'suenos-alerta')) return;
+        descontarLunas(5);
+        document.getElementById('suenos-texto').disabled = true;
+        document.getElementById('suenos-btn').style.display = 'none';
+        document.getElementById('suenos-cargando').style.display = 'flex';
+        reiniciarLoader('suenos-cargando');
+        setTimeout(() => {
+            const res = "Tu sueño evoca una fuerte necesidad de transición. Los símbolos que narrás sugieren que estás procesando un cambio de piel emocional. El agua en tu relato simboliza la fluidez de tus sentimientos actuales, invitándote a confiar en tu propia corriente y no oponer resistencia a lo que debe quedar atrás. Jung diría que tu inconsciente ya tomó la decisión: solo necesita tu permiso consciente.";
+            document.getElementById('suenos-cargando').style.display = 'none';
+            document.getElementById('suenos-resultado').style.display = 'block';
+            document.getElementById('suenos-texto-ia').innerText = res;
+            registrarConsulta('Sueños', document.getElementById('suenos-texto').value.substring(0, 50) + '...', res);
+            mostrarNotificacion("✨ Inconsciente descifrado");
+        }, 4000);
+    }
+
+    /* ════════════════════════════════
+       FILOSOFÍA
+    ════════════════════════════════ */
+    function filosofiaValidar() {
+        const t = document.getElementById('filosofia-texto').value;
+        document.getElementById('filosofia-btn').style.display = t.length > 10 ? 'block' : 'none';
+    }
+
+    function filosofiaIniciar() {
+        if (!verificarLunas(3, 'filosofia-alerta')) return;
+        descontarLunas(3);
+        document.getElementById('filosofia-texto').disabled = true;
+        document.getElementById('filosofia-btn').style.display = 'none';
+        document.getElementById('filosofia-cargando').style.display = 'flex';
+        reiniciarLoader('filosofia-cargando');
+        setTimeout(() => {
+            const res = "Desde una perspectiva estoica, tu situación nos recuerda que no sufrimos por los hechos en sí, sino por la representación que hacemos de ellos. Epicteto sugeriría que te enfoques únicamente en lo que está bajo tu control: tu juicio y tu voluntad. Al soltar la preocupación por lo externo, recuperarás la ataraxia (tranquilidad de ánimo). Lo que hoy percibes como un obstáculo es, en realidad, materia prima para ejercitar tu virtud.";
+            document.getElementById('filosofia-cargando').style.display = 'none';
+            document.getElementById('filosofia-resultado').style.display = 'block';
+            document.getElementById('filosofia-texto-ia').innerText = res;
+            registrarConsulta('Filosofía', document.getElementById('filosofia-texto').value.substring(0, 50) + '...', res);
+            mostrarNotificacion("✨ Perspectiva integrada");
+        }, 4000);
+    }
+
+    /* ════════════════════════════════
+       AMULETOS
+    ════════════════════════════════ */
+    function amuletosValidar() {
+        const v = document.getElementById('amuletos-input').value;
+        document.getElementById('amuletos-btn').style.display = v.length > 3 ? 'block' : 'none';
+    }
+
+    function amuletosIniciar() {
+        if (!verificarLunas(2, 'amuletos-alerta')) return;
+        descontarLunas(2);
+        document.getElementById('amuletos-input').disabled = true;
+        document.getElementById('amuletos-btn').style.display = 'none';
+        document.getElementById('amuletos-cargando').style.display = 'flex';
+        reiniciarLoader('amuletos-cargando');
+        setTimeout(() => {
+            const res = "Para tu propósito, la naturaleza sugiere un amuleto de Laurel y Cuarzo Blanco. Llevá tres hojas de laurel en una bolsita de tela blanca junto a la piedra. El laurel actuará como protector de tu energía, mientras que el cuarzo amplificará tu intención clara. Cargalo bajo la luna nueva para potenciar su vibración y cambialo cada ciclo lunar para renovar su energía.";
+            document.getElementById('amuletos-cargando').style.display = 'none';
+            document.getElementById('amuletos-resultado').style.display = 'block';
+            document.getElementById('amuletos-texto-ia').innerText = res;
+            registrarConsulta('Amuletos', document.getElementById('amuletos-input').value, res);
+            mostrarNotificacion("✨ Amuleto creado");
+        }, 4000);
+    }
+
+    /* ── REINICIAR LOADER (para re-animación) ── */
+    function reiniciarLoader(contenedorId) {
+        const contenedor = document.getElementById(contenedorId);
+        const fp = contenedor.querySelector('.fill-progress');
+        if (fp) {
+            fp.style.animation = 'none';
+            fp.offsetHeight; // reflow
+            fp.style.animation = 'fillEnergy 4s forwards';
+        }
+    }
+</script>
+</body>
+</html>

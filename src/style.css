@@ -1,0 +1,295 @@
+:root {
+    /* Palette: High-end Esoteric HSL */
+    --rosa: hsl(332, 100%, 80%);
+    --rosa-glow: hsla(332, 100%, 80%, 0.3);
+    --amarillo: hsl(55, 90%, 86%);
+    --verde: hsl(144, 61%, 88%);
+    --verde-deep: hsl(144, 61%, 20%);
+    --azul: hsl(200, 88%, 82%);
+    --lila: hsl(277, 86%, 86%);
+    --lila-deep: hsl(277, 86%, 20%);
+    --texto: hsl(30, 10%, 10%);
+    --gris-bg: hsl(30, 20%, 97%);
+    --gris-glass: hsla(0, 0%, 100%, 0.7);
+    --border-glass: hsla(0, 0%, 100%, 0.5);
+    
+    --r-lg: 32px;
+    --font-main: 'Outfit', sans-serif;
+    --shadow-soft: 0 10px 40px -10px hsla(0, 0%, 0%, 0.08);
+    --aura-rosa: 0 0 30px var(--rosa-glow);
+
+    /* Gradients for conic logo */
+    --c1: var(--rosa);
+    --c2: var(--amarillo);
+    --c3: var(--verde);
+    --c4: var(--azul);
+    --c5: var(--lila);
+    --c6: var(--rosa);
+    --c7: var(--amarillo);
+
+    --gris2: #e0e0e0;
+}
+
+/* ── NOISE TEXTURE ── */
+body::before {
+    content: "";
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: url("https://www.transparenttextures.com/patterns/p6.png"); /* Subtle noise texture */
+    opacity: 0.15; pointer-events: none; z-index: 9999;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { font-family: var(--font-main); background-color: var(--gris-bg); color: var(--texto); padding-bottom: 40px; }
+
+/* ── NAVBAR ── */
+.navbar {
+    position: sticky; top: 0; z-index: 1000;
+    background: var(--gris-glass); backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--border-glass);
+    padding: 16px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.logo-wrapper { display: flex; align-items: center; gap: 12px; cursor: pointer; text-decoration: none; color: var(--texto); }
+.logo-icon-container {
+    width: 45px; height: 45px; border-radius: 50%; border: 1.5px solid var(--texto);
+    overflow: hidden; display: flex; align-items: center; justify-content: center;
+    background: conic-gradient(var(--c1) 0deg 51.4deg, var(--c2) 51.4deg 102.8deg, var(--c3) 102.8deg 154.2deg,
+        var(--c4) 154.2deg 205.6deg, var(--c5) 205.6deg 257deg, var(--c6) 257deg 308.4deg, var(--c7) 308.4deg 360deg);
+}
+.loto-svg { width: 28px; height: 28px; }
+.loto-svg path { fill: none; stroke: var(--texto); stroke-width: 1.8; stroke-linecap: round; }
+.logo-text { font-weight: 800; font-size: 22px; }
+.logo-text span { color: var(--rosa); }
+
+.luna-chip-container { display: flex; flex-direction: column; align-items: center; min-width: 90px; }
+.luna-chip { background: var(--amarillo); padding: 6px 16px; border-radius: 100px; font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+.luna-gratis { font-size: 10px; color: var(--rosa); font-weight: 800; margin-top: 2px; text-transform: uppercase; }
+
+/* ── ANIMACIONES ── */
+@keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fillEnergy { 0% { height: 0%; } 100% { height: 100%; } }
+@keyframes flipCoin { 0% { transform: rotateX(0deg); } 50% { transform: rotateX(180deg); } 100% { transform: rotateX(360deg); } }
+
+.active-beat { animation: beat 2s infinite ease-in-out; }
+
+/* ── PÁGINAS ── */
+.page { display: none; animation: fadeIn 0.4s ease both; }
+.page.active { display: block; }
+
+/* ── HERO ── */
+.hero { background: var(--amarillo); padding: 45px 20px; text-align: center; border-radius: 0 0 var(--r-lg) var(--r-lg); }
+.hero h1 { font-size: 28px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
+.hero-btns { display: flex; gap: 10px; justify-content: center; max-width: 400px; margin: 0 auto; }
+
+/* ── BOTONES GLOBALES ── */
+.btn { border: none; padding: 16px 22px; border-radius: 100px; font-weight: 800; font-size: 15px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; justify-content: center; font-family: var(--font-main); }
+.btn-rosa { background: var(--rosa); color: hsl(332, 50%, 20%); box-shadow: 0 4px 15px var(--rosa-glow); }
+.btn-rosa:hover { box-shadow: 0 8px 25px var(--rosa-glow); transform: translateY(-2px); }
+.btn-blanco { background: white; color: var(--texto); border: 1px solid var(--border-glass); }
+.btn-verde { background: var(--verde); color: var(--verde-deep); }
+.btn-lila { background: var(--lila); color: var(--lila-deep); }
+.btn-amarillo { background: var(--amarillo); color: hsl(55, 50%, 20%); }
+.btn-full { width: 100%; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── GRID MÓDULOS ── */
+.im-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 25px 20px; }
+.im-card {
+    border-radius: 20px; padding: 22px 15px; text-align: center;
+    border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    opacity: 0.4; cursor: not-allowed;
+    min-height: 125px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    transition: 0.3s;
+}
+.im-card:hover.unlocked { transform: translateY(-8px); box-shadow: 0 15px 35px var(--rosa-glow); }
+.im-card.unlocked { opacity: 1; cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.im-card .icon { font-size: 32px; display: block; margin-bottom: 8px; }
+.im-card .title { font-weight: 800; font-size: 14px; }
+
+/* ── MÓDULO CONTAINER (común) ── */
+.modulo-box {
+    background: var(--gris-glass); backdrop-filter: blur(20px);
+    width: 100%; max-width: 480px;
+    border-radius: var(--r-lg); padding: 35px;
+    border: 1px solid var(--border-glass);
+    box-shadow: var(--shadow-soft);
+    text-align: center; margin: 30px auto;
+    position: relative; overflow: hidden;
+}
+.modulo-box::after {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, var(--rosa-glow) 0%, transparent 70%);
+    opacity: 0.1; pointer-events: none; z-index: -1;
+}
+.modulo-box h2 { font-weight: 800; font-size: 22px; margin-bottom: 6px; }
+.modulo-box > p { font-size: 14px; opacity: 0.7; margin-bottom: 4px; }
+
+.modulo-input {
+    width: 100%; padding: 15px; border-radius: 15px;
+    border: 2px solid var(--gris2); font-family: var(--font-main);
+    font-size: 15px; margin: 15px 0; outline: none; transition: 0.3s;
+}
+.modulo-textarea {
+    width: 100%; min-height: 130px; padding: 15px; border-radius: 15px;
+    border: 2px solid var(--gris2); font-family: var(--font-main);
+    font-size: 15px; margin: 15px 0; outline: none; resize: none; transition: 0.3s;
+}
+
+/* ── LOADER LOTO ── */
+.loading-ia { display: none; flex-direction: column; align-items: center; gap: 15px; margin: 25px 0; }
+.loto-loader {
+    width: 75px; height: 75px; border: 2px solid var(--texto); border-radius: 50%;
+    position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; background: white;
+}
+.loto-svg-inner { width: 45px; z-index: 5; position: relative; }
+.loto-svg-inner path { fill: none; stroke: var(--texto); stroke-width: 1.5; stroke-linecap: round; }
+.fill-progress {
+    position: absolute; bottom: 0; width: 100%; height: 0%;
+    background: conic-gradient(var(--c1), var(--c4), var(--c7));
+    animation: fillEnergy 4s forwards; z-index: 1;
+}
+.loading-ia p { font-size: 13px; font-weight: 600; }
+
+/* ── RESULTADO ── */
+.resultado-box {
+    display: none; text-align: left; padding: 25px; border-radius: 20px;
+    font-size: 15px; line-height: 1.7; font-style: italic; margin-top: 20px;
+    animation: fadeIn 0.5s ease;
+}
+.resultado-box h3 { font-style: normal; font-weight: 800; font-size: 16px; margin-bottom: 10px; }
+
+/* ── VOLVER ── */
+.btn-volver { margin-top: 20px; }
+
+/* ────────────────────────────────────────
+    TAROT
+──────────────────────────────────────── */
+.tarot-options { display: none; flex-direction: column; gap: 12px; }
+.option-card {
+    background: white; border: 2.5px solid var(--gris2); border-radius: 20px;
+    padding: 18px; text-align: left; cursor: pointer; transition: 0.3s;
+}
+.option-card.pulsing { animation: beat 3s infinite; }
+.luna-tag { background: var(--amarillo); padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 800; float: right; }
+
+.mesa-lectura { display: none; margin-top: 20px; }
+.cartas-grid { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.carta {
+    width: 75px; height: 120px; background: var(--rosa); border-radius: 12px;
+    border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; color: white; transition: 0.6s; font-size: 22px;
+}
+.carta.revelada { background: white; color: var(--texto); border-color: var(--rosa); transform: rotateY(180deg); }
+
+/* ────────────────────────────────────────
+    I CHING
+──────────────────────────────────────── */
+.mesa-monedas { display: none; margin-top: 20px; }
+.monedas-container { display: flex; justify-content: center; gap: 20px; margin: 25px 0; }
+.moneda {
+    width: 60px; height: 60px; background: var(--amarillo); border-radius: 50%;
+    border: 3px solid #E6D5A7; display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 20px; box-shadow: 0 4px 0 #D4C18D; transition: 0.2s;
+}
+.moneda.flipping { animation: flipCoin 0.6s infinite; }
+
+.hexagrama-display { display: flex; flex-direction: column-reverse; align-items: center; gap: 8px; margin: 20px 0; min-height: 120px; }
+.linea { height: 12px; width: 120px; border-radius: 6px; transition: 0.5s; }
+.linea.yang { background: var(--rosa); }
+.linea.yin { background: transparent; display: flex; justify-content: space-between; }
+.linea.yin::before, .linea.yin::after { content: ''; width: 52px; height: 100%; background: var(--azul); border-radius: 6px; }
+
+/* ────────────────────────────────────────
+    PORTAL ASTRAL
+──────────────────────────────────────── */
+.astral-grid-menu { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.astral-card {
+    background: white; border: 2px solid var(--gris2); border-radius: 20px;
+    padding: 18px; text-align: left; cursor: pointer; transition: 0.3s; position: relative;
+}
+.astral-card:hover { border-color: var(--lila); }
+.cost-tag { position: absolute; top: 15px; right: 15px; background: var(--gris2); padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: 800; }
+.astral-card h3 { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+.astral-card p { font-size: 12px; opacity: 0.7; line-height: 1.3; padding-right: 50px; }
+
+#astral-form-pareja {
+    display: none; background: #FFF9FC; border-radius: 20px; padding: 20px;
+    margin-top: 10px; border: 1.5px dashed var(--rosa); text-align: left;
+    animation: fadeIn 0.4s ease;
+}
+.input-group { margin-bottom: 10px; }
+.input-group label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 4px; opacity: 0.6; }
+.input-group input { width: 100%; padding: 10px; border-radius: 10px; border: 1.5px solid var(--gris2); font-family: var(--font-main); outline: none; }
+
+/* ────────────────────────────────────────
+    PAQUETES
+──────────────────────────────────────── */
+.pack-promo { background: var(--verde); padding: 25px; border-radius: 20px; margin-bottom: 20px; color: var(--t-verde); text-align: center; }
+.pack-card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.pack-premium { border: 2px solid var(--rosa); background: linear-gradient(135deg, white, var(--lila)); }
+.pack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.pack-mini { background: white; border-radius: 18px; padding: 18px; text-align: center; border: 1.5px solid var(--gris2); box-shadow: 0 3px 10px rgba(0,0,0,0.04); }
+.pack-mini h3 { font-size: 13px; font-weight: 800; margin-bottom: 4px; }
+.pack-mini .lunas-num { font-size: 24px; font-weight: 800; color: var(--rosa); }
+.pack-mini .precio { font-size: 14px; opacity: 0.6; margin-top: 4px; }
+.pack-mini .btn { font-size: 12px; padding: 10px 14px; margin-top: 10px; }
+
+/* ── MODAL RITUAL ── */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(4px); }
+.modal-overlay.active { display: flex; }
+.ritual-card { background: white; border-radius: var(--r-lg); width: 100%; max-width: 400px; padding: 30px; border: 2.5px solid var(--azul); text-align: center; position: relative; animation: fadeIn 0.3s ease; }
+.btn-close { position: absolute; top: 15px; right: 15px; font-size: 20px; cursor: pointer; opacity: 0.5; background: none; border: none; }
+.ritual-card .input-group { text-align: left; margin-bottom: 12px; }
+.ritual-card .input-group input { width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid var(--gris2); font-family: var(--font-main); outline: none; font-size: 14px; }
+
+/* ── PADDING MÓDULOS ── */
+.page-modulo { padding: 0 16px; }
+
+/* ── ALERTA LUNAS ── */
+.alerta-lunas {
+    display: none; background: #FFF0F5; border: 1.5px solid var(--rosa);
+    border-radius: 16px; padding: 18px; margin: 15px 0; text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+.alerta-lunas p { font-size: 14px; margin-bottom: 12px; }
+
+/* ── AUTH UI ── */
+.auth-container {
+    padding: 20px;
+    max-width: 400px;
+    margin: 40px auto;
+}
+
+.google-btn {
+    background: white;
+    border: 1px solid var(--border-glass);
+    color: var(--texto);
+    margin-top: 15px;
+}
+
+/* ── NOTIFICACIONES ── */
+.notif {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--texto); color: white; padding: 14px 24px; border-radius: 100px;
+    font-weight: 600; font-size: 14px; z-index: 3000; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0;
+}
+.notif.active { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ── ESTADOS BLOQUEADOS ── */
+.im-grid.is-locked { pointer-events: none; filter: blur(5px); opacity: 0.5; grayscale: 0.5; }
+.navbar.is-locked .luna-chip-container { display: none; }
+
+/* ── RITUAL STEP CONTROL ── */
+.ritual-step { display: none; animation: fadeIn 0.4s ease; }
+.ritual-step.active { display: block; }
+
+.ritual-card {
+    background: white; border-radius: var(--r-lg); width: 100%; max-width: 440px; 
+    padding: 35px; border: 2.5px solid var(--azul); text-align: center; 
+    position: relative; animation: fadeIn 0.3s ease;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+}
