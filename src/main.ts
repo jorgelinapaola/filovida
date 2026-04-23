@@ -166,7 +166,6 @@ document.getElementById('btn-close-ritual')?.addEventListener('click', () => {
 });
 
     // Eliminar el listener antiguo de finalizar ritual global si existe o dejarlo vacío
-});
 
 /* ── NAVEGACIÓN ENTRE PASOS DEL MODAL (LIMPIEZA) ── */
 // Ya no son necesarios los botones de navegación interna del modal de sintonía global
