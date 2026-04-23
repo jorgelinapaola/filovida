@@ -12,7 +12,7 @@ let state: UserState = {
     historial: []
 };
 
-// Cargar estado local inicial
+// Cargar estado local inicial (opcional, para persistencia entre sesiones si no hay login)
 const savedLocal = localStorage.getItem('filosvida_local_user');
 if (savedLocal) {
     try {
@@ -74,14 +74,16 @@ function updateUI() {
     if (moonVal) moonVal.innerText = state.lunas.toString();
     if (lunaLabel) lunaLabel.innerText = state.lunas > 0 ? (state.registrado ? 'TOCA PARA RECARGAR' : 'GRATIS') : '¡RECARGA!';
     
-    const isSintonized = state.registrado;
+    const isLoggedIn = currentUser !== null;
 
-    if (isSintonized) {
-        if (heroTitle) heroTitle.innerHTML = `¡Bienvenido/a ${state.usuario.nombre}<br>a FilosVida!`;
+    if (isLoggedIn) {
+        const displayName = state.usuario.nombre || (currentUser.displayName ? currentUser.displayName.split(' ')[0] : 'viajero/a');
+        if (heroTitle) heroTitle.innerHTML = `¡Bienvenido/a ${displayName}<br>a FilosVida!`;
         if (btnRitualStart) (btnRitualStart as HTMLElement).style.display = 'none';
         if (btnPacksHero) (btnPacksHero as HTMLElement).style.display = 'flex';
         imGrid?.classList.remove('is-locked');
         document.querySelectorAll('.im-card').forEach(c => c.classList.add('unlocked'));
+        modalRitual?.classList.remove('active');
     } else {
         if (heroTitle) heroTitle.innerHTML = `¿El universo habla?<br>Quieres escucharlo`;
         if (btnRitualStart) (btnRitualStart as HTMLElement).style.display = 'flex';
@@ -90,16 +92,7 @@ function updateUI() {
         document.querySelectorAll('.im-card').forEach(c => c.classList.remove('unlocked'));
     }
 
-    if (btnLogout) (btnLogout as HTMLElement).style.display = currentUser ? 'block' : 'none';
-
-    // Manejo de Pasos en el Ritual
-    if (!state.registrado) {
-        // Si no está registrado, siempre mostramos el Paso 2 (Sintonía) por defecto
-        ritualStep1?.classList.remove('active');
-        ritualStep2?.classList.add('active');
-    } else {
-        modalRitual?.classList.remove('active');
-    }
+    if (btnLogout) (btnLogout as HTMLElement).style.display = isLoggedIn ? 'block' : 'none';
 }
 
 /* ── AUTENTICACIÓN ── */
@@ -160,55 +153,23 @@ btnLogout?.addEventListener('click', () => {
 
 /* ── PERFIL / RITUAL ── */
 btnRitualStart?.addEventListener('click', () => {
-    modalRitual?.classList.add('active');
+    if (!currentUser) {
+        modalRitual?.classList.add('active');
+    } else {
+        // Si ya está logeado, desplazar a la cuadrícula de módulos
+        imGrid?.scrollIntoView({ behavior: 'smooth' });
+    }
 });
 
 document.getElementById('btn-close-ritual')?.addEventListener('click', () => {
     modalRitual?.classList.remove('active');
 });
 
-document.getElementById('btn-finalizar-ritual')?.addEventListener('click', async () => {
-    const nombre = (document.getElementById('reg-nombre') as HTMLInputElement).value;
-    const fecha = (document.getElementById('reg-fecha') as HTMLInputElement).value;
-    const hora = (document.getElementById('reg-hora') as HTMLInputElement).value;
-    const lugar = (document.getElementById('reg-lugar') as HTMLInputElement).value;
-
-    if (!nombre || !fecha) return notify("Faltan datos de sintonía");
-
-    const updates = {
-        registrado: true,
-        usuario: { nombre, nacimiento: fecha, hora, lugar }
-    };
-
-    if (currentUser) {
-        try {
-            await saveUserProgress(currentUser.uid, updates);
-            notify("✨ Sintonía guardada en la nube");
-            modalRitual?.classList.remove('active');
-        } catch (e) {
-            notify("Error al guardar en la nube");
-        }
-    } else {
-        // Guardar localmente
-        state = { ...state, ...updates };
-        localStorage.setItem('filosvida_local_user', JSON.stringify(state));
-        notify("✨ Sintonía activada localmente");
-        updateUI();
-        modalRitual?.classList.remove('active');
-    }
+    // Eliminar el listener antiguo de finalizar ritual global si existe o dejarlo vacío
 });
 
-/* ── NAVEGACIÓN ENTRE PASOS DEL MODAL ── */
-document.getElementById('link-goto-login')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    ritualStep1?.classList.add('active');
-    ritualStep2?.classList.remove('active');
-});
-
-document.getElementById('btn-goto-step2')?.addEventListener('click', () => {
-    ritualStep1?.classList.remove('active');
-    ritualStep2?.classList.add('active');
-});
+/* ── NAVEGACIÓN ENTRE PASOS DEL MODAL (LIMPIEZA) ── */
+// Ya no son necesarios los botones de navegación interna del modal de sintonía global
 
 /* ── EVENTOS DE NAVEGACIÓN ── */
 document.getElementById('nav-inicio')?.addEventListener('click', () => goTo('inicio'));
@@ -231,8 +192,55 @@ document.getElementById('card-iching')?.addEventListener('click', () => {
 });
 
 document.getElementById('card-astral')?.addEventListener('click', () => {
-    if (!state.registrado) return;
-    notify("✨ Módulo Portal Astral próximamente...");
+    if (!currentUser) return modalRitual?.classList.add('active');
+    renderAstral();
+    goTo('astral');
+});
+
+function renderAstral() {
+    const form = document.getElementById('astral-sintonia-form');
+    const result = document.getElementById('astral-result');
+    const nameDisplay = document.getElementById('astral-user-name');
+    const interp = document.getElementById('astral-interpretation');
+
+    if (!state.registrado) {
+        if (form) form.style.display = 'block';
+        if (result) result.style.display = 'none';
+    } else {
+        if (form) form.style.display = 'none';
+        if (result) result.style.display = 'block';
+        if (nameDisplay) nameDisplay.innerText = `Carta Astral de ${state.usuario.nombre}`;
+        if (interp) interp.innerHTML = `
+            Basado en tu nacimiento el <b>${state.usuario.nacimiento}</b> en <b>${state.usuario.lugar}</b>, 
+            el cielo revela una fuerte influencia de la energía actual sobre tu camino personal... 
+            <br><br>
+            Tu Sol en equilibrio con el momento presente sugiere una etapa de claridad y nuevos comienzos.
+        `;
+    }
+}
+
+document.getElementById('btn-save-astral-sintonia')?.addEventListener('click', async () => {
+    const nombre = (document.getElementById('astral-nombre') as HTMLInputElement).value;
+    const fecha = (document.getElementById('astral-fecha') as HTMLInputElement).value;
+    const hora = (document.getElementById('astral-hora') as HTMLInputElement).value;
+    const lugar = (document.getElementById('astral-lugar') as HTMLInputElement).value;
+
+    if (!nombre || !fecha) return notify("Faltan datos de sintonía");
+
+    const updates = {
+        registrado: true,
+        usuario: { nombre, nacimiento: fecha, hora, lugar }
+    };
+
+    if (currentUser) {
+        try {
+            await saveUserProgress(currentUser.uid, updates);
+            notify("✨ Sintonía guardada y Carta Astral generada");
+            renderAstral();
+        } catch (e) {
+            notify("Error al guardar en la nube");
+        }
+    }
 });
 
 document.getElementById('card-suenos')?.addEventListener('click', () => {
