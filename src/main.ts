@@ -74,9 +74,9 @@ function updateUI() {
     if (moonVal) moonVal.innerText = state.lunas.toString();
     if (lunaLabel) lunaLabel.innerText = state.lunas > 0 ? (state.registrado ? 'TOCA PARA RECARGAR' : 'GRATIS') : '¡RECARGA!';
     
-    const isFullyRegistered = currentUser && state.registrado;
+    const isSintonized = state.registrado;
 
-    if (isFullyRegistered) {
+    if (isSintonized) {
         if (heroTitle) heroTitle.innerHTML = `¡Bienvenido/a ${state.usuario.nombre}<br>a FilosVida!`;
         if (btnRitualStart) (btnRitualStart as HTMLElement).style.display = 'none';
         if (btnPacksHero) (btnPacksHero as HTMLElement).style.display = 'flex';
@@ -87,6 +87,7 @@ function updateUI() {
         if (btnRitualStart) (btnRitualStart as HTMLElement).style.display = 'flex';
         if (btnPacksHero) (btnPacksHero as HTMLElement).style.display = 'none';
         imGrid?.classList.add('is-locked');
+        document.querySelectorAll('.im-card').forEach(c => c.classList.remove('unlocked'));
     }
 
     if (btnLogout) (btnLogout as HTMLElement).style.display = currentUser ? 'block' : 'none';
@@ -217,7 +218,35 @@ document.querySelectorAll('.btn-volver-inicio').forEach(btn => {
 });
 
 // Tarjetas del home
+document.getElementById('card-tarot')?.addEventListener('click', () => {
+    if (!state.registrado) return;
+    notify("🔮 Módulo Tarot IA próximamente...");
+    // renderTarot();
+    // goTo('tarot');
+});
+
+document.getElementById('card-iching')?.addEventListener('click', () => {
+    if (!state.registrado) return;
+    notify("☯️ Módulo I Ching próximamente...");
+});
+
+document.getElementById('card-astral')?.addEventListener('click', () => {
+    if (!state.registrado) return;
+    notify("✨ Módulo Portal Astral próximamente...");
+});
+
+document.getElementById('card-suenos')?.addEventListener('click', () => {
+    if (!state.registrado) return;
+    notify("🌌 Módulo Sueños próximamente...");
+});
+
+document.getElementById('card-filosofia')?.addEventListener('click', () => {
+    if (!state.registrado) return;
+    notify("🦉 Módulo Filosofía próximamente...");
+});
+
 document.getElementById('card-diario')?.addEventListener('click', () => {
+    if (!state.registrado) return;
     renderDiario();
     goTo('diario');
 });
